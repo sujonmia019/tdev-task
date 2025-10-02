@@ -1,15 +1,15 @@
 # Tdevs Laravel Authentication & Subscription System
 
-A comprehensive Laravel-based authentication and subscription management system with email verification, OTP login, payment gateway integration.
+A comprehensive Laravel-based authentication and subscription management system with email verification, OTP login, payment gateway integration and without package using.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [System Requirements](#system-requirements)
 - [Installation Guide](#installation-guide)
 - [API Documentation](#api-documentation)
 
-## ✨ Features
+## Features
 
 ### User Module
 - User registration with email verification
@@ -98,12 +98,13 @@ A comprehensive Laravel-based authentication and subscription management system 
     php artisan migrate:fresh --seed
 
 9. Demo Access
-    ``php
+    ```php
     Email: admin@example.com
     Pass: 12345678
 
     Email: user@example.com
     Pass: 12345678
+    ```
 
 9. Run the migrations without seeding
 
