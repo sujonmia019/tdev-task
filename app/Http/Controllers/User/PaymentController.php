@@ -89,7 +89,6 @@ class PaymentController extends Controller
         return $approvalUrl ? redirect($approvalUrl) : back()->with('error','PayPal approval URL not found');
     }
 
-
     public function success(Request $request)
     {
         $user = auth()->user();

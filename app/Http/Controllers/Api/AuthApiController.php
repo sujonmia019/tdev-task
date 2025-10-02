@@ -27,7 +27,7 @@ class AuthApiController extends Controller
         event(new SendRegisterOTP($user, $otp));
 
         $data = new UserResource($user);
-        return $this->responseJson('success', 'User registered successfully. Check your email for OTP.', $data);
+        return $this->responseJson(true, 'User registered successfully. Check your email for OTP.', $data);
     }
 
     public function verifyOtp(Request $request)
@@ -40,10 +40,10 @@ class AuthApiController extends Controller
             return $this->responseJson(false,'Form Validator', $validator->errors());
         }
 
-        $user = User::where('otp_code', $request->otp)->firstOrFail();
+        $user = User::where('otp_code', $request->otp)->first();
 
-        if ($user->otp_code != $request->otp || Carbon::now()->gt($user->otp_expires_at)) {
-            return $this->responseJson('error','Invalid or expired OTP');
+        if (!$user || Carbon::now()->gt($user->otp_expires_at)) {
+            return $this->responseJson(false, 'Invalid or expired OTP');
         }
 
         $user->forceFill([
@@ -58,7 +58,7 @@ class AuthApiController extends Controller
             'user'  => new UserResource($user)
         ];
 
-        return $this->responseJson('success','Your account has been successfully verified.',$data);
+        return $this->responseJson(true,'Your account has been successfully verified.',$data);
     }
 
     public function login(LoginRequest $request)
@@ -71,13 +71,13 @@ class AuthApiController extends Controller
         ];
 
         if (! Auth::attempt($credentials)) {
-            return $this->responseJson('error','The provided credentials do not match our records.', null, 401);
+            return $this->responseJson(false,'The provided credentials do not match our records.', null, 401);
         }
 
         $user = Auth::user();
 
         if (is_null($user->email_verified_at)) {
-            return $this->responseJson('error','Please verify your email first.', null, 403);
+            return $this->responseJson(false,'Please verify your email first.', null, 403);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -85,7 +85,7 @@ class AuthApiController extends Controller
             'token' => $token,
             'user'  => new UserResource($user)
         ];
-        
-        return $this->responseJson('success','Login successful.', $data);
+
+        return $this->responseJson(true,'Login successful.', $data);
     }
 }
