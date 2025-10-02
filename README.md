@@ -106,12 +106,12 @@ A comprehensive Laravel-based authentication and subscription management system 
     Pass: 12345678
     ```
 
-9. Run the migrations without seeding
+10. Run the migrations without seeding
 
     ```bash
     php artisan migrate
 
-10. Start the development server
+11. Start the development server
 
     ```bash
     php artisan serve
